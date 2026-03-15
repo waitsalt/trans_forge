@@ -7,7 +7,6 @@ use crate::features::translation::TranslationItem;
 pub enum ProviderMessage {
     Query {
         keyword: Option<String>,
-        format_types: Option<Vec<String>>,
         page: u32,
         page_size: u32,
         resp: oneshot::Sender<Result<ProviderPage>>,

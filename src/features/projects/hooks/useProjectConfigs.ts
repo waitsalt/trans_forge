@@ -1,11 +1,8 @@
 import { computed, ref, type Ref } from 'vue'
 import { projectBridge } from '../api/projectBridge'
 import type { PromptPreset } from '../../presets/types'
-import type { Project, ProjectStatusCode } from '../types'
-import {
-  mapRunStatusLabelToCode,
-  normalizeProject,
-} from '../utils'
+import type { Project } from '../types'
+import { normalizeProject } from '../utils'
 import { toErrorMessage, toNonNegativeInt, toPositiveInt } from '../../../shared/utils/core'
 
 interface ToastLike {
@@ -14,7 +11,7 @@ interface ToastLike {
 }
 
 type ProgressEntry = {
-  status: ProjectStatusCode
+  status: string
   total: number
   processed: number
   error: number
@@ -28,7 +25,6 @@ export function useProjectConfigs(
 ) {
   const projectLibrary = ref<Project[]>([])
   const projectSearchKeyword = ref<string>('')
-  const projectRunStatusFilters = ref<string[]>(['未开始', '运行中', '已暂停', '已完成'])
   const selectedProjectSet = ref<Set<string>>(new Set())
   const showProjectEditor = ref<boolean>(false)
   const editingProjectName = ref<string | null>(null)
@@ -51,12 +47,8 @@ export function useProjectConfigs(
 
   async function loadProjects() {
     const keyword = projectSearchKeyword.value.trim()
-    const selectedRunStatusCodes = projectRunStatusFilters.value
-      .map((label) => mapRunStatusLabelToCode(label))
-      .filter((item): item is ProjectStatusCode => item !== null)
     const response = await projectBridge.queryProjects({
       keyword: keyword.length > 0 ? keyword : null,
-      runStatuses: selectedRunStatusCodes,
       page: projectPage.value,
       pageSize: normalizedProjectPageSize.value,
     })
@@ -281,7 +273,6 @@ export function useProjectConfigs(
   return {
     projectLibrary,
     projectSearchKeyword,
-    projectRunStatusFilters,
     selectedProjectSet,
     showProjectEditor,
     editingProjectName,

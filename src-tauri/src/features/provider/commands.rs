@@ -8,13 +8,12 @@ use crate::shared::state::AppState;
 pub async fn query_providers(
     state: State<'_, AppState>,
     keyword: Option<String>,
-    format_types: Option<Vec<String>>,
     page: u32,
     page_size: u32,
 ) -> CommandResult<ProviderPage> {
     state
         .provider
-        .query(keyword, format_types, page, page_size)
+        .query(keyword, page, page_size)
         .await
         .map_err(to_client_error)
 }

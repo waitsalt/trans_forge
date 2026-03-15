@@ -6,7 +6,6 @@ import { toErrorMessage } from '../../../shared/utils/core'
 import { usePromptPresets } from './usePromptPresets'
 import { usePageDataSync } from '../../../shared/composables/usePageDataSync'
 import { useVisiblePages } from '../../../shared/composables/useVisiblePages'
-import { useMultiSelectFilter } from '../../../shared/composables/useMultiSelectFilter'
 
 export function usePresetPage() {
   const languages = ref([...defaultLanguages])
@@ -19,7 +18,6 @@ export function usePresetPage() {
     editingPromptPresetName,
     promptPresetPage,
     promptPresetTotalPages,
-    promptPresetLanguageFilters,
     draftPromptPresetName,
     draftPromptPresetLanguage,
     draftPromptPresetPrompt,
@@ -40,7 +38,7 @@ export function usePresetPage() {
     goToLastPromptPresetPage,
     goToNextPromptPresetPage,
     goToPromptPresetPage,
-  } = usePromptPresets(toast, languages)
+  } = usePromptPresets(toast)
 
   usePageDataSync({
     toast,
@@ -50,7 +48,7 @@ export function usePresetPage() {
     ],
     watchTasks: [
       {
-        filterSources: [promptPresetSearchKeyword, normalizedPromptPresetPageSize, promptPresetLanguageFilters],
+        filterSources: [promptPresetSearchKeyword, normalizedPromptPresetPageSize],
         page: promptPresetPage,
         task: loadPromptPresets,
         errorPrefix: '加载提示词失败',
@@ -71,30 +69,6 @@ export function usePresetPage() {
       prompt: preset.prompt,
       selected: selectedPromptPresetSet.value.has(preset.name),
     })),
-  )
-
-  const availableLanguages = computed(() => languages.value.map((item) => item.name))
-
-  const {
-    selectedValues: selectedLanguages,
-    allSelected: allLanguagesSelected,
-    partiallySelected: languagesPartiallySelected,
-    toggleValue: toggleLanguage,
-    toggleAll: handleToggleAllLanguages,
-  } = useMultiSelectFilter(availableLanguages)
-
-  watch(selectedLanguages, () => {
-    if (promptPresetPage.value !== 0) {
-      updatePromptPresetPage(0)
-    }
-  })
-
-  watch(
-    selectedLanguages,
-    (value) => {
-      promptPresetLanguageFilters.value = [...value]
-    },
-    { deep: true },
   )
 
   watch(totalPages, () => {
@@ -142,12 +116,6 @@ export function usePresetPage() {
     openCreatePromptPreset,
     selectAllVisiblePromptPresets,
     bulkDeleteSelected,
-    allLanguagesSelected,
-    languagesPartiallySelected,
-    availableLanguages,
-    selectedLanguages,
-    handleToggleAllLanguages,
-    toggleLanguage,
     normalizedPromptPresetPageSize,
     updatePromptPresetPageSize,
     promptPresetPage,

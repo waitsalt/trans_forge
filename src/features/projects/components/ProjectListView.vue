@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import FilterDropdown from '../../../shared/ui/FilterDropdown.vue'
 import PaginationBar from '../../../shared/ui/PaginationBar.vue'
 import { useProjectPageVm } from '../hooks/projectPageContext'
 
@@ -9,12 +8,6 @@ const {
   currentPage,
   totalPages,
   visiblePages,
-  availableRunStatuses,
-  selectedRunStatuses,
-  allRunStatusesSelected,
-  runStatusesPartiallySelected,
-  handleToggleAllRunStatuses,
-  toggleRunStatus,
   updateProjectProfilePageSize,
   updateProjectProfilePage,
   toggleSelectProject,
@@ -30,15 +23,6 @@ const {
 
 <template>
   <div class="list-toolbar">
-    <FilterDropdown
-      label="运行状态"
-      :options="availableRunStatuses"
-      :selected-values="selectedRunStatuses"
-      :all-selected="allRunStatusesSelected"
-      :partially-selected="runStatusesPartiallySelected"
-      :on-toggle-all="handleToggleAllRunStatuses"
-      :on-toggle-value="toggleRunStatus"
-    />
     <PaginationBar
       :page-size="pageSize"
       :current-page="currentPage"
@@ -98,22 +82,26 @@ const {
           </div>
         </div>
       </div>
-      <div class="model-actions">
-        <button v-if="item.actionLabel !== '完结'" @click="startOrPauseProject(item.name)">
-          {{ item.actionLabel }}
-        </button>
-        <div class="retry-dropdown">
-          <button>重试</button>
-          <div class="retry-dropdown-menu">
-            <button @click="retryProjectErrors(item.name)">错误重试</button>
-            <button @click="retryProjectAll(item.name)">全部重试</button>
-          </div>
+    <div class="model-actions">
+      <button
+        v-if="item.actionLabel !== '完结'"
+        class="btn btn--accent"
+        @click="startOrPauseProject(item.name)"
+      >
+        {{ item.actionLabel }}
+      </button>
+      <div class="retry-dropdown">
+        <button class="btn btn--ghost">重试</button>
+        <div class="retry-dropdown-menu">
+          <button class="btn btn--ghost" @click="retryProjectErrors(item.name)">错误重试</button>
+          <button class="btn btn--ghost" @click="retryProjectAll(item.name)">全部重试</button>
         </div>
-        <button @click="openProjectDetail(item.name)">详情</button>
-        <button @click="exportProject(item.name)">导出</button>
-        <button @click="openEditProject(item.name)">编辑</button>
-        <button class="danger" @click="deleteProject(item.name)">删除</button>
       </div>
+      <button class="btn btn--ghost" @click="openProjectDetail(item.name)">详情</button>
+      <button class="btn" @click="exportProject(item.name)">导出</button>
+      <button class="btn" @click="openEditProject(item.name)">编辑</button>
+      <button class="btn btn--danger" @click="deleteProject(item.name)">删除</button>
+    </div>
     </div>
   </div>
 </template>

@@ -2,12 +2,12 @@ import { invoke } from '@tauri-apps/api/core'
 import type {
   Project,
   ProjectRuntimeSnapshot,
-  ProjectStatusCode,
   TranslationItem,
   TranslationProgress,
 } from '../../features/projects/types'
 import type { PromptPreset } from '../../features/presets/types'
 import type { Provider } from '../../features/providers/types'
+import type { ThemeInput, ThemePreferences, ThemeState } from '../types/theme'
 
 export async function tauriInvoke<T>(command: string, payload?: Record<string, unknown>): Promise<T> {
   return invoke<T>(command, payload)
@@ -25,13 +25,13 @@ type ProviderLikeConfig = Provider & {
 
 type TauriCommandMap = {
   query_providers: {
-    payload: { keyword: string | null; formatTypes: string[]; page: number; pageSize: number }
+    payload: { keyword: string | null; page: number; pageSize: number }
     result: PagedResult<Provider>
   }
   list_prompt_presets: { payload: undefined; result: PromptPreset[] }
   delete_projects: { payload: { names: string[] }; result: number }
   query_projects: {
-    payload: { keyword: string | null; runStatuses: ProjectStatusCode[]; page: number; pageSize: number }
+    payload: { keyword: string | null; page: number; pageSize: number }
     result: PagedResult<Project>
   }
   get_all_project_runtime_snapshots: { payload: undefined; result: ProjectRuntimeSnapshot[] }
@@ -40,7 +40,7 @@ type TauriCommandMap = {
   get_project: { payload: { name: string }; result: Project }
   delete_project: { payload: { name: string }; result: void }
   query_prompt_presets: {
-    payload: { keyword: string | null; languages: string[]; page: number; pageSize: number }
+    payload: { keyword: string | null; page: number; pageSize: number }
     result: PagedResult<PromptPreset>
   }
   get_prompt_preset: { payload: { name: string }; result: PromptPreset }
@@ -77,6 +77,12 @@ type TauriCommandMap = {
   export_files: { payload: { outputPath: string }; result: number }
   clear_project_items: { payload: { name: string }; result: number }
   fetch_models: { payload: { config: ProviderLikeConfig }; result: string[] }
+  get_theme_state: { payload: undefined; result: ThemeState }
+  create_theme: { payload: { config: ThemeInput }; result: ThemeState }
+  update_theme: { payload: { id: number; config: ThemeInput }; result: ThemeState }
+  delete_theme: { payload: { id: number }; result: ThemeState }
+  restore_default_themes: { payload: undefined; result: ThemeState }
+  save_theme_preferences: { payload: { prefs: ThemePreferences }; result: ThemePreferences }
 }
 
 type CommandName = keyof TauriCommandMap
@@ -132,4 +138,11 @@ export const api = {
   exportFiles: (payload: CommandPayload<'export_files'>) => invokeCommand('export_files', payload),
   clearProjectItems: (payload: CommandPayload<'clear_project_items'>) => invokeCommand('clear_project_items', payload),
   fetchModels: (payload: CommandPayload<'fetch_models'>) => invokeCommand('fetch_models', payload),
+  getThemeState: () => invokeCommand('get_theme_state'),
+  createTheme: (payload: CommandPayload<'create_theme'>) => invokeCommand('create_theme', payload),
+  updateTheme: (payload: CommandPayload<'update_theme'>) => invokeCommand('update_theme', payload),
+  deleteTheme: (payload: CommandPayload<'delete_theme'>) => invokeCommand('delete_theme', payload),
+  restoreDefaultThemes: () => invokeCommand('restore_default_themes'),
+  saveThemePreferences: (payload: CommandPayload<'save_theme_preferences'>) =>
+    invokeCommand('save_theme_preferences', payload),
 }

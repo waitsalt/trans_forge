@@ -24,14 +24,12 @@ impl ProviderManager {
     pub async fn query(
         &self,
         keyword: Option<String>,
-        format_types: Option<Vec<String>>,
         page: u32,
         page_size: u32,
     ) -> Result<ProviderPage> {
         self.worker
             .ask(|resp| ProviderMessage::Query {
                 keyword,
-                format_types,
                 page,
                 page_size,
                 resp,

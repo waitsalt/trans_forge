@@ -141,7 +141,6 @@ impl Project {
     pub async fn query(
         pool: &SqlitePool,
         keyword: Option<String>,
-        run_statuses: Option<Vec<ProjectRunStatus>>,
         page: u32,
         page_size: u32,
     ) -> Result<ProjectPage> {
@@ -149,21 +148,14 @@ impl Project {
         projects.sort_by(|a, b| a.name.cmp(&b.name));
 
         let keyword = keyword.unwrap_or_default().trim().to_lowercase();
-        let selected_statuses: Option<HashSet<ProjectRunStatus>> =
-            run_statuses.map(|values| values.into_iter().collect());
         let filtered: Vec<Project> = projects
             .into_iter()
             .filter(|project| {
-                let keyword_ok = if keyword.is_empty() {
+                if keyword.is_empty() {
                     true
                 } else {
                     project.name.to_lowercase().contains(&keyword)
-                };
-                let status_ok = selected_statuses
-                    .as_ref()
-                    .map(|statuses| statuses.contains(&project.run_status))
-                    .unwrap_or(true);
-                keyword_ok && status_ok
+                }
             })
             .collect();
 

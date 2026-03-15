@@ -1,9 +1,7 @@
 use tauri::State;
 
 use crate::shared::command::{CommandResult, to_client_error};
-use crate::features::project::{
-    Project, ProjectPage, ProjectRunStatus, ProjectRuntimeSnapshot,
-};
+use crate::features::project::{Project, ProjectPage, ProjectRuntimeSnapshot};
 use crate::features::translation::TranslationProgress;
 use crate::shared::state::AppState;
 
@@ -11,14 +9,13 @@ use crate::shared::state::AppState;
 pub async fn query_projects(
     state: State<'_, AppState>,
     keyword: Option<String>,
-    run_statuses: Option<Vec<ProjectRunStatus>>,
     page: u32,
     page_size: u32,
 ) -> CommandResult<ProjectPage> {
     state.ensure_recovered_running_projects().await;
     state
         .project
-        .query_configs(keyword, run_statuses, page, page_size)
+        .query_configs(keyword, page, page_size)
         .await
         .map_err(to_client_error)
 }

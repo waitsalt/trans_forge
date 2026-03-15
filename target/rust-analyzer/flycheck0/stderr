@@ -1,5 +1,5 @@
-   0.298017094s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="tran_001_lib"}: cargo::core::compiler::fingerprint: fingerprint error for trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)/Check { test: false }/TargetInner { ..: lib_target("tran_001_lib", ["staticlib", "cdylib", "rlib"], "/data/code/github/waitsalt/trans_forge/src-tauri/src/lib.rs", Edition2024) }
-   0.298044900s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="tran_001_lib"}: cargo::core::compiler::fingerprint:     err: failed to read `/data/code/github/waitsalt/trans_forge/src-tauri/target/debug/.fingerprint/trans_forge-a9b93561199552a0/lib-tran_001_lib`
+   0.352557389s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="tran_001_lib"}: cargo::core::compiler::fingerprint: fingerprint error for trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)/Check { test: true }/TargetInner { ..: lib_target("tran_001_lib", ["staticlib", "cdylib", "rlib"], "/data/code/github/waitsalt/trans_forge/src-tauri/src/lib.rs", Edition2024) }
+   0.352573775s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="tran_001_lib"}: cargo::core::compiler::fingerprint:     err: failed to read `/data/code/github/waitsalt/trans_forge/src-tauri/target/debug/.fingerprint/trans_forge-0a3a499457e12bb9/test-lib-tran_001_lib`
 
 Caused by:
     No such file or directory (os error 2)
@@ -41,53 +41,8 @@ Stack backtrace:
   24: <unknown>
   25: __libc_start_main
   26: <unknown>
-   0.334127421s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/data/code/github/waitsalt/trans_forge/src-tauri/build.rs", Edition2024) }
-   0.334144152s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/data/code/github/waitsalt/trans_forge/src-tauri/target/debug/.fingerprint/trans_forge-469ddaca43730d6a/run-build-script-build-script-build`
-
-Caused by:
-    No such file or directory (os error 2)
-
-Stack backtrace:
-   0: cargo_util::paths::read_bytes
-   1: cargo_util::paths::read
-   2: cargo::core::compiler::fingerprint::_compare_old_fingerprint
-   3: cargo::core::compiler::fingerprint::prepare_target
-   4: cargo::core::compiler::custom_build::build_work
-   5: cargo::core::compiler::compile
-   6: cargo::core::compiler::compile
-   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
-   8: cargo::ops::cargo_compile::compile_ws
-   9: cargo::ops::cargo_compile::compile_with_exec
-  10: cargo::ops::cargo_compile::compile
-  11: cargo::commands::check::exec
-  12: <cargo::cli::Exec>::exec
-  13: cargo::main
-  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
-  15: std::rt::lang_start::<()>::{closure#0}
-  16: core::ops::function::impls::<impl core::ops::function::FnOnce<A> for &F>::call_once
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/ops/function.rs:287:21
-  17: std::panicking::catch_unwind::do_call
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:590:40
-  18: std::panicking::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:553:19
-  19: std::panic::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panic.rs:359:14
-  20: std::rt::lang_start_internal::{{closure}}
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/rt.rs:175:24
-  21: std::panicking::catch_unwind::do_call
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:590:40
-  22: std::panicking::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:553:19
-  23: std::panic::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panic.rs:359:14
-  24: std::rt::lang_start_internal
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/rt.rs:171:5
-  25: main
-  26: <unknown>
-  27: __libc_start_main
-  28: <unknown>
-   0.334579660s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="tran_001_lib"}: cargo::core::compiler::fingerprint: fingerprint error for trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)/Check { test: true }/TargetInner { ..: lib_target("tran_001_lib", ["staticlib", "cdylib", "rlib"], "/data/code/github/waitsalt/trans_forge/src-tauri/src/lib.rs", Edition2024) }
-   0.334590776s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="tran_001_lib"}: cargo::core::compiler::fingerprint:     err: failed to read `/data/code/github/waitsalt/trans_forge/src-tauri/target/debug/.fingerprint/trans_forge-0a3a499457e12bb9/test-lib-tran_001_lib`
+   0.358242575s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="trans_forge"}: cargo::core::compiler::fingerprint: fingerprint error for trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)/Check { test: true }/TargetInner { name: "trans_forge", doc: true, ..: with_path("/data/code/github/waitsalt/trans_forge/src-tauri/src/main.rs", Edition2024) }
+   0.358252255s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="trans_forge"}: cargo::core::compiler::fingerprint:     err: failed to read `/data/code/github/waitsalt/trans_forge/src-tauri/target/debug/.fingerprint/trans_forge-c210b978653ae7ba/test-bin-trans_forge`
 
 Caused by:
     No such file or directory (os error 2)
@@ -129,106 +84,5 @@ Stack backtrace:
   24: <unknown>
   25: __libc_start_main
   26: <unknown>
-   0.336737181s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="trans_forge"}: cargo::core::compiler::fingerprint: fingerprint error for trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)/Check { test: false }/TargetInner { name: "trans_forge", doc: true, ..: with_path("/data/code/github/waitsalt/trans_forge/src-tauri/src/main.rs", Edition2024) }
-   0.336748763s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="trans_forge"}: cargo::core::compiler::fingerprint:     err: failed to read `/data/code/github/waitsalt/trans_forge/src-tauri/target/debug/.fingerprint/trans_forge-cb812d1260e5c37e/bin-trans_forge`
-
-Caused by:
-    No such file or directory (os error 2)
-
-Stack backtrace:
-   0: cargo_util::paths::read_bytes
-   1: cargo_util::paths::read
-   2: cargo::core::compiler::fingerprint::_compare_old_fingerprint
-   3: cargo::core::compiler::fingerprint::prepare_target
-   4: cargo::core::compiler::compile
-   5: <cargo::core::compiler::build_runner::BuildRunner>::compile
-   6: cargo::ops::cargo_compile::compile_ws
-   7: cargo::ops::cargo_compile::compile_with_exec
-   8: cargo::ops::cargo_compile::compile
-   9: cargo::commands::check::exec
-  10: <cargo::cli::Exec>::exec
-  11: cargo::main
-  12: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
-  13: std::rt::lang_start::<()>::{closure#0}
-  14: core::ops::function::impls::<impl core::ops::function::FnOnce<A> for &F>::call_once
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/ops/function.rs:287:21
-  15: std::panicking::catch_unwind::do_call
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:590:40
-  16: std::panicking::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:553:19
-  17: std::panic::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panic.rs:359:14
-  18: std::rt::lang_start_internal::{{closure}}
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/rt.rs:175:24
-  19: std::panicking::catch_unwind::do_call
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:590:40
-  20: std::panicking::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:553:19
-  21: std::panic::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panic.rs:359:14
-  22: std::rt::lang_start_internal
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/rt.rs:171:5
-  23: main
-  24: <unknown>
-  25: __libc_start_main
-  26: <unknown>
-   0.338536447s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="trans_forge"}: cargo::core::compiler::fingerprint: fingerprint error for trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)/Check { test: true }/TargetInner { name: "trans_forge", doc: true, ..: with_path("/data/code/github/waitsalt/trans_forge/src-tauri/src/main.rs", Edition2024) }
-   0.338546538s  INFO prepare_target{force=false package_id=trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri) target="trans_forge"}: cargo::core::compiler::fingerprint:     err: failed to read `/data/code/github/waitsalt/trans_forge/src-tauri/target/debug/.fingerprint/trans_forge-c210b978653ae7ba/test-bin-trans_forge`
-
-Caused by:
-    No such file or directory (os error 2)
-
-Stack backtrace:
-   0: cargo_util::paths::read_bytes
-   1: cargo_util::paths::read
-   2: cargo::core::compiler::fingerprint::_compare_old_fingerprint
-   3: cargo::core::compiler::fingerprint::prepare_target
-   4: cargo::core::compiler::compile
-   5: <cargo::core::compiler::build_runner::BuildRunner>::compile
-   6: cargo::ops::cargo_compile::compile_ws
-   7: cargo::ops::cargo_compile::compile_with_exec
-   8: cargo::ops::cargo_compile::compile
-   9: cargo::commands::check::exec
-  10: <cargo::cli::Exec>::exec
-  11: cargo::main
-  12: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
-  13: std::rt::lang_start::<()>::{closure#0}
-  14: core::ops::function::impls::<impl core::ops::function::FnOnce<A> for &F>::call_once
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/ops/function.rs:287:21
-  15: std::panicking::catch_unwind::do_call
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:590:40
-  16: std::panicking::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:553:19
-  17: std::panic::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panic.rs:359:14
-  18: std::rt::lang_start_internal::{{closure}}
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/rt.rs:175:24
-  19: std::panicking::catch_unwind::do_call
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:590:40
-  20: std::panicking::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:553:19
-  21: std::panic::catch_unwind
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panic.rs:359:14
-  22: std::rt::lang_start_internal
-             at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/rt.rs:171:5
-  23: main
-  24: <unknown>
-  25: __libc_start_main
-  26: <unknown>
-   Compiling trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)
-error: failed to run custom build command for `trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)`
-note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
-
-Caused by:
-  process didn't exit successfully: `/data/code/github/waitsalt/trans_forge/src-tauri/target/debug/build/trans_forge-9f9cea0d29e19c71/build-script-build` (exit status: 1)
-  --- stdout
-  cargo:rerun-if-env-changed=TAURI_CONFIG
-  cargo:rustc-check-cfg=cfg(desktop)
-  cargo:rustc-cfg=desktop
-  cargo:rustc-check-cfg=cfg(mobile)
-  cargo:rerun-if-changed=/data/code/github/waitsalt/trans_forge/src-tauri/tauri.conf.json
-  cargo:rustc-env=TAURI_ANDROID_PACKAGE_NAME_APP_NAME=tran_001
-  cargo:rustc-env=TAURI_ANDROID_PACKAGE_NAME_PREFIX=com_x
-  cargo:rustc-check-cfg=cfg(dev)
-  cargo:rustc-cfg=dev
-  failed to read plugin permissions: failed to read file '/data/code/temp/tran_001/src-tauri/target/debug/build/tauri-40b563cfad6bf2d5/out/permissions/app/autogenerated/commands/app_hide.toml': No such file or directory (os error 2)
+    Checking trans_forge v0.1.0 (/data/code/github/waitsalt/trans_forge/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.80s

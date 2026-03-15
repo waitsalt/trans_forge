@@ -12,6 +12,7 @@ use crate::features::kv::AppKv;
 use crate::features::preset::PromptPreset;
 use crate::features::project::Project;
 use crate::features::provider::Provider;
+use crate::features::theme::model::Theme;
 use crate::features::translation::TranslationItem;
 
 static APP_DB_POOL: OnceCell<SqlitePool> = OnceCell::const_new();
@@ -63,5 +64,6 @@ async fn init_app_schema(pool: &SqlitePool) -> Result<()> {
     PromptPreset::init_schema(pool).await?;
     TranslationItem::init_schema(pool).await?;
     AppKv::init_schema(pool).await?;
+    Theme::init_schema(pool).await?;
     Ok(())
 }

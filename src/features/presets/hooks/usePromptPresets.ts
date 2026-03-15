@@ -1,6 +1,5 @@
-import { computed, type Ref, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { presetBridge } from '../api/presetBridge'
-import type { Language } from '../../../shared/types/ui'
 import { toErrorMessage, toPositiveInt } from '../../../shared/utils/core'
 import type { PromptPreset } from '../types'
 import { normalizePromptPreset } from '../utils'
@@ -10,7 +9,7 @@ interface ToastLike {
   error: (message: string) => void
 }
 
-export function usePromptPresets(toast: ToastLike, languages: Ref<Language[]>) {
+export function usePromptPresets(toast: ToastLike) {
   const promptPresetLibrary = ref<PromptPreset[]>([])
   const promptPresetAll = ref<PromptPreset[]>([])
   const promptPresetSearchKeyword = ref<string>('')
@@ -20,14 +19,9 @@ export function usePromptPresets(toast: ToastLike, languages: Ref<Language[]>) {
   const promptPresetPageSize = ref<number>(10)
   const promptPresetPage = ref<number>(0)
   const promptPresetTotalPages = ref<number>(0)
-  const promptPresetLanguageFilters = ref<string[]>([])
   const draftPromptPresetName = ref<string>('')
   const draftPromptPresetLanguage = ref<string>('ZH')
   const draftPromptPresetPrompt = ref<string>('')
-
-  if (promptPresetLanguageFilters.value.length === 0) {
-    promptPresetLanguageFilters.value = languages.value.map((item) => item.name)
-  }
 
   const normalizedPromptPresetPageSize = computed(() => {
     return toPositiveInt(Number(promptPresetPageSize.value), 10)
@@ -53,15 +47,8 @@ export function usePromptPresets(toast: ToastLike, languages: Ref<Language[]>) {
 
   async function loadPromptPresets() {
     const keyword = promptPresetSearchKeyword.value.trim()
-    const selectedLanguageCodes = promptPresetLanguageFilters.value
-      .map((label) => {
-        const matched = languages.value.find((item) => item.name === label)
-        return matched?.code ?? null
-      })
-      .filter((value): value is string => Boolean(value))
     const response = await presetBridge.queryPromptPresets({
       keyword: keyword.length > 0 ? keyword : null,
-      languages: selectedLanguageCodes,
       page: promptPresetPage.value,
       pageSize: normalizedPromptPresetPageSize.value,
     })
@@ -210,7 +197,6 @@ export function usePromptPresets(toast: ToastLike, languages: Ref<Language[]>) {
     promptPresetPageSize,
     promptPresetPage,
     promptPresetTotalPages,
-    promptPresetLanguageFilters,
     draftPromptPresetName,
     draftPromptPresetLanguage,
     draftPromptPresetPrompt,

@@ -28,7 +28,6 @@ export function useProviders(toast: ToastLike) {
   const providerPageSize = ref<number>(10)
   const providerPage = ref<number>(0)
   const providerTotalPages = ref<number>(0)
-  const providerFormatFilters = ref<string[]>(['openai', 'google', 'anthropic'])
   const draftProviderName = ref<string>('default')
   const draftApiFormat = ref<ApiFormatKey>('openai')
   const draftApiUrl = ref<string>('https://api.openai.com/v1')
@@ -102,7 +101,6 @@ export function useProviders(toast: ToastLike) {
     const keyword = providerSearchKeyword.value.trim()
     const response = await providerBridge.queryProviders({
       keyword: keyword.length > 0 ? keyword : null,
-      formatTypes: providerFormatFilters.value,
       page: providerPage.value,
       pageSize: normalizedProviderPageSize.value,
     })
@@ -339,7 +337,6 @@ export function useProviders(toast: ToastLike) {
     providerPageSize,
     providerPage,
     providerTotalPages,
-    providerFormatFilters,
     draftProviderName,
     draftApiFormat,
     draftApiUrl,

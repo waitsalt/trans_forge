@@ -165,7 +165,6 @@ impl Provider {
     pub async fn query(
         pool: &SqlitePool,
         keyword: Option<String>,
-        format_types: Option<Vec<String>>,
         page: u32,
         page_size: u32,
     ) -> Result<ProviderPage> {
@@ -173,30 +172,14 @@ impl Provider {
         providers.sort_by(|a, b| a.name.cmp(&b.name));
 
         let keyword = keyword.unwrap_or_default().trim().to_lowercase();
-        let selected_formats: Option<HashSet<String>> = format_types.map(|values| {
-            values
-                .into_iter()
-                .map(|value| value.trim().to_ascii_lowercase())
-                .filter(|value| !value.is_empty())
-                .collect()
-        });
         let filtered: Vec<Provider> = providers
             .into_iter()
             .filter(|provider| {
-                let keyword_ok = if keyword.is_empty() {
+                if keyword.is_empty() {
                     true
                 } else {
                     provider.name.to_lowercase().contains(&keyword)
-                };
-                let format_ok = selected_formats
-                    .as_ref()
-                    .map(|formats| {
-                        formats
-                            .iter()
-                            .any(|f| f.as_str() == Self::format_type(provider))
-                    })
-                    .unwrap_or(true);
-                keyword_ok && format_ok
+                }
             })
             .collect();
 
@@ -522,11 +505,4 @@ impl Provider {
         })
     }
 
-    fn format_type(provider: &Provider) -> &'static str {
-        match &provider.format {
-            ApiFormat::OpenAi => "openai",
-            ApiFormat::Google => "google",
-            ApiFormat::Anthropic { .. } => "anthropic",
-        }
-    }
 }

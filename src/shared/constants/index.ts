@@ -1,4 +1,4 @@
-import type { ApiFormatKey, ThemeKey } from '../types/ui'
+import type { ApiFormatKey } from '../types/ui'
 
 export const OFFICIAL_API_BASE_URL: Record<ApiFormatKey, string> = {
   openai: 'https://api.openai.com/v1',
@@ -13,13 +13,6 @@ export const DEFAULT_API_MODELS: Record<ApiFormatKey, string> = {
 }
 
 export const DEFAULT_ANTHROPIC_VERSION = '2023-06-01'
-
-export const themes: Array<{ key: ThemeKey; name: string; mode: 'dark' | 'light' }> = [
-  { key: 'latte', name: 'Catppuccin Latte', mode: 'light' },
-  { key: 'frappe', name: 'Catppuccin Frappe', mode: 'dark' },
-  { key: 'macchiato', name: 'Catppuccin Macchiato', mode: 'dark' },
-  { key: 'mocha', name: 'Catppuccin Mocha', mode: 'dark' },
-]
 
 export const defaultLanguages = [
   { code: 'ZH', name: '中文' },

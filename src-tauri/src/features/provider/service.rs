@@ -23,12 +23,11 @@ impl ProviderService {
     pub async fn query(
         &self,
         keyword: Option<String>,
-        format_types: Option<Vec<String>>,
         page: u32,
         page_size: u32,
     ) -> Result<ProviderPage> {
         self.manager
-            .query(keyword, format_types, page, page_size)
+            .query(keyword, page, page_size)
             .await
     }
 

@@ -3,5 +3,7 @@ export interface Language {
   name: string
 }
 
-export type ThemeKey = 'latte' | 'frappe' | 'macchiato' | 'mocha'
+export type ThemeKey = string
+export type ThemeKind = 'light' | 'dark'
+export type ThemeMode = ThemeKind | 'system'
 export type ApiFormatKey = 'openai' | 'google' | 'anthropic'

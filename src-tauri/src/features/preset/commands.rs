@@ -1,4 +1,3 @@
-use crate::shared::common::Language;
 use crate::features::preset::{PromptPreset, PromptPresetPage};
 use tauri::State;
 
@@ -9,13 +8,12 @@ use crate::shared::state::AppState;
 pub async fn query_prompt_presets(
     state: State<'_, AppState>,
     keyword: Option<String>,
-    languages: Option<Vec<Language>>,
     page: u32,
     page_size: u32,
 ) -> CommandResult<PromptPresetPage> {
     state
         .preset
-        .query(keyword, languages, page, page_size)
+        .query(keyword, page, page_size)
         .await
         .map_err(to_client_error)
 }

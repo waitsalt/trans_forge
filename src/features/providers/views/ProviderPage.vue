@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ApiSettingsCard from '../components/ApiSettingsCard.vue'
-import FilterDropdown from '../../../shared/ui/FilterDropdown.vue'
 import ListHeaderBar from '../../../shared/ui/ListHeaderBar.vue'
 import PaginationBar from '../../../shared/ui/PaginationBar.vue'
 import { useProviderPage } from '../hooks/useProviderPage'
@@ -12,12 +11,6 @@ const {
   selectedCount,
   bulkDeleteSelected,
   showEditor,
-  allTypesSelected,
-  typesPartiallySelected,
-  handleToggleAllTypes,
-  availableTypes,
-  selectedTypes,
-  toggleType,
   pageSize,
   updateProviderPageSize,
   currentPage,
@@ -65,15 +58,6 @@ const {
 
     <template v-if="!showEditor">
       <div class="list-toolbar">
-        <FilterDropdown
-          label="类型"
-          :options="availableTypes"
-          :selected-values="selectedTypes"
-          :all-selected="allTypesSelected"
-          :partially-selected="typesPartiallySelected"
-          :on-toggle-all="handleToggleAllTypes"
-          :on-toggle-value="toggleType"
-        />
         <PaginationBar
           :page-size="pageSize"
           :current-page="currentPage"
@@ -106,13 +90,14 @@ const {
           </div>
           <div class="model-actions">
             <button
+              class="btn btn--ghost"
               :disabled="runningProviderTestNames.includes(item.name)"
               @click="testProvider(item.name)"
             >
               {{ runningProviderTestNames.includes(item.name) ? '测试中...' : '测试' }}
             </button>
-            <button @click="openEditProvider(item.name)">编辑</button>
-            <button class="danger" @click="deleteProvider(item.name)">删除</button>
+            <button class="btn" @click="openEditProvider(item.name)">编辑</button>
+            <button class="btn btn--danger" @click="deleteProvider(item.name)">删除</button>
           </div>
         </div>
       </div>
@@ -146,8 +131,8 @@ const {
       />
 
       <div class="model-actions editor-actions">
-        <button class="btn-primary" @click="saveProvider()">确认</button>
-        <button @click="cancelEditProvider()">取消</button>
+        <button class="btn btn--accent" @click="saveProvider()">确认</button>
+        <button class="btn btn--ghost" @click="cancelEditProvider()">取消</button>
       </div>
     </div>
   </div>

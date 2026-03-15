@@ -14,7 +14,6 @@ import { useProjectRuntimeActions } from './useProjectRuntimeActions'
 import { useProjectPathPickers } from './useProjectPathPickers'
 import { usePageDataSync } from '../../../shared/composables/usePageDataSync'
 import { useVisiblePages } from '../../../shared/composables/useVisiblePages'
-import { useMultiSelectFilter } from '../../../shared/composables/useMultiSelectFilter'
 
 type ProjectProgressEntry = {
   status: ProjectStatusCode
@@ -32,7 +31,6 @@ export function useProjectPage() {
   const {
     projectLibrary,
     projectSearchKeyword,
-    projectRunStatusFilters,
     selectedProjectSet,
     showProjectEditor,
     editingProjectName,
@@ -101,7 +99,6 @@ export function useProjectPage() {
   async function loadProviderOptions() {
     const response = await providerBridge.queryProviders({
       keyword: null,
-      formatTypes: ['openai', 'google', 'anthropic'],
       page: 0,
       pageSize: 1000,
     })
@@ -122,7 +119,7 @@ export function useProjectPage() {
     ],
     watchTasks: [
       {
-        filterSources: [projectSearchKeyword, normalizedProjectPageSize, projectRunStatusFilters],
+        filterSources: [projectSearchKeyword, normalizedProjectPageSize],
         page: projectPage,
         task: loadProjects,
         errorPrefix: '加载项目配置失败',
@@ -248,30 +245,6 @@ export function useProjectPage() {
 
   const detailPageSize = ref(10)
   const detailPage = ref(0)
-  const selectedStatuses = ref<string[]>([])
-  const availableRunStatuses = ref(['未开始', '运行中', '已暂停', '已完成'])
-  const {
-    selectedValues: selectedRunStatuses,
-    allSelected: allRunStatusesSelected,
-    partiallySelected: runStatusesPartiallySelected,
-    toggleValue: toggleRunStatus,
-    toggleAll: handleToggleAllRunStatuses,
-  } = useMultiSelectFilter(availableRunStatuses)
-
-  watch(selectedRunStatuses, () => {
-    if (currentPage.value !== 0) {
-      updateProjectProfilePage(0)
-    }
-  })
-
-  watch(
-    selectedRunStatuses,
-    (value) => {
-      projectRunStatusFilters.value = [...value]
-    },
-    { deep: true },
-  )
-
   watch([totalPages, currentPage], () => {
     const maxPage = Math.max(totalPages.value - 1, 0)
     if (currentPage.value > maxPage) {
@@ -286,14 +259,6 @@ export function useProjectPage() {
     })),
   )
 
-  const availableStatuses = computed(() => {
-    const set = new Set<string>()
-    for (const item of normalizedDetailItems.value) {
-      set.add(item.normalizedStatus)
-    }
-    return Array.from(set.values())
-  })
-
   watch(
     () => [showDetail.value, detailProjectName.value, detailItems.value.length],
     ([show]) => {
@@ -302,25 +267,16 @@ export function useProjectPage() {
       }
       detailPage.value = 0
       detailPageSize.value = 10
-      selectedStatuses.value = availableStatuses.value.length > 0 ? [...availableStatuses.value] : []
     },
     { immediate: true },
   )
-
-  const filteredDetailItems = computed(() => {
-    const selected = new Set(selectedStatuses.value)
-    if (selected.size === 0) {
-      return []
-    }
-    return normalizedDetailItems.value.filter((item) => selected.has(item.normalizedStatus))
-  })
 
   const normalizedDetailPageSize = computed(() => {
     return toPositiveInt(Number(detailPageSize.value), 10)
   })
 
   const detailTotalPages = computed(() => {
-    const total = filteredDetailItems.value.length
+    const total = normalizedDetailItems.value.length
     if (total === 0) {
       return 0
     }
@@ -333,7 +289,7 @@ export function useProjectPage() {
     const maxPage = Math.max(detailTotalPages.value - 1, 0)
     const page = Math.min(Math.max(detailPage.value, 0), maxPage)
     const start = page * normalizedDetailPageSize.value
-    return filteredDetailItems.value.slice(start, start + normalizedDetailPageSize.value)
+    return normalizedDetailItems.value.slice(start, start + normalizedDetailPageSize.value)
   })
 
   const visibleDetailRows = computed(() => {
@@ -345,17 +301,6 @@ export function useProjectPage() {
       item,
     }))
   })
-
-  function toggleDetailStatus(status: string) {
-    const next = new Set(selectedStatuses.value)
-    if (next.has(status)) {
-      next.delete(status)
-    } else {
-      next.add(status)
-    }
-    selectedStatuses.value = Array.from(next.values())
-    detailPage.value = 0
-  }
 
   function goPrevDetailPage() {
     detailPage.value = Math.max(0, detailPage.value - 1)
@@ -497,12 +442,6 @@ export function useProjectPage() {
     detailPrompt,
     detailItems,
     runningDetailItemIds,
-    availableRunStatuses,
-    selectedRunStatuses,
-    allRunStatusesSelected,
-    runStatusesPartiallySelected,
-    handleToggleAllRunStatuses,
-    toggleRunStatus,
     openCreateProject,
     selectAllVisibleProjects,
     bulkDeleteSelected,
@@ -524,8 +463,6 @@ export function useProjectPage() {
     cancelEditProject,
     closeProjectDetail,
     clearProjectCache,
-    availableStatuses,
-    selectedStatuses,
     mapDetailStatusLabel,
     normalizedDetailPageSize,
     updateDetailPageSize,
@@ -548,6 +485,5 @@ export function useProjectPage() {
     editingText,
     closeTextEditor,
     saveTextEditor,
-    toggleDetailStatus,
   }
 }

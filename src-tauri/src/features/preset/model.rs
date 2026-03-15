@@ -38,7 +38,6 @@ impl PromptPreset {
     pub async fn query(
         pool: &SqlitePool,
         keyword: Option<String>,
-        languages: Option<Vec<Language>>,
         page: u32,
         page_size: u32,
     ) -> Result<PromptPresetPage> {
@@ -46,12 +45,10 @@ impl PromptPreset {
         presets.sort_by(|a, b| a.name.cmp(&b.name));
 
         let keyword = keyword.unwrap_or_default().trim().to_lowercase();
-        let selected_languages: Option<HashSet<Language>> =
-            languages.map(|values| values.into_iter().collect());
         let filtered: Vec<PromptPreset> = presets
             .into_iter()
             .filter(|preset| {
-                let keyword_ok = if keyword.is_empty() {
+                if keyword.is_empty() {
                     true
                 } else {
                     preset.name.to_lowercase().contains(&keyword)
@@ -59,12 +56,7 @@ impl PromptPreset {
                             .to_lowercase()
                             .contains(&keyword)
                         || preset.prompt.to_lowercase().contains(&keyword)
-                };
-                let language_ok = selected_languages
-                    .as_ref()
-                    .map(|items| items.contains(&preset.language))
-                    .unwrap_or(true);
-                keyword_ok && language_ok
+                }
             })
             .collect();
 

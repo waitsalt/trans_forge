@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { EpCollectionTag, EpCpu, EpFolderOpened, EpMoonNight, EpSetting, EpSunny } from 'vue-icons-plus/ep'
+import { EpCollectionTag, EpCpu, EpFolderOpened, EpSetting } from 'vue-icons-plus/ep'
 import { RouterLink } from 'vue-router'
-
-defineProps<{
-  isDark: boolean
-  onToggleTheme: () => void
-}>()
 </script>
 
 <template>
@@ -28,12 +23,6 @@ defineProps<{
     </nav>
 
     <div class="theme-toggle">
-      <button class="theme-btn" @click="onToggleTheme">
-        <EpSunny v-if="isDark" class="theme-icon" />
-        <EpMoonNight v-else class="theme-icon" />
-        <span v-if="isDark">切换浅色</span>
-        <span v-else>切换暗色</span>
-      </button>
       <RouterLink to="/settings" class="theme-btn setting-btn" active-class="active">
         <EpSetting class="theme-icon" />
         <span>设置</span>

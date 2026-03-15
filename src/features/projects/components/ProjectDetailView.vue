@@ -9,8 +9,6 @@ const {
   closeProjectDetail,
   exportProject,
   clearProjectCache,
-  availableStatuses,
-  selectedStatuses,
   mapDetailStatusLabel,
   normalizedDetailPageSize,
   updateDetailPageSize,
@@ -33,24 +31,23 @@ const {
   editingText,
   closeTextEditor,
   saveTextEditor,
-  toggleDetailStatus,
 } = useProjectPageVm()
 </script>
 
 <template>
-  <div class="section-header">
-    <h2>项目详情</h2>
-    <div class="header-actions">
-      <button @click="closeProjectDetail()">返回</button>
+    <div class="section-header">
+      <h2>项目详情</h2>
+      <div class="header-actions">
+        <button class="btn btn--ghost" @click="closeProjectDetail()">返回</button>
+      </div>
     </div>
-  </div>
 
   <div class="card detail-panel">
     <div class="detail-header">
       <h3>{{ detailProjectName }}</h3>
       <div class="detail-header-actions">
-        <button class="detail-head-btn" @click="exportProject(detailProjectName)">导出</button>
-        <button class="detail-head-btn danger-outline" @click="clearProjectCache(detailProjectName)">
+        <button class="btn detail-head-btn" @click="exportProject(detailProjectName)">导出</button>
+        <button class="btn btn--danger detail-head-btn" @click="clearProjectCache(detailProjectName)">
           清除缓存
         </button>
       </div>
@@ -62,16 +59,6 @@ const {
     </div>
 
     <div class="detail-toolbar">
-      <div class="status-filters">
-        <label v-for="status in availableStatuses" :key="status" class="status-chip">
-          <input
-            type="checkbox"
-            :checked="selectedStatuses.includes(status)"
-            @change="toggleDetailStatus(status)"
-          />
-          <span>{{ mapDetailStatusLabel(status) }}</span>
-        </label>
-      </div>
       <div class="pagination-wrap detail-pagination-wrap">
         <PaginationBar
           :page-size="normalizedDetailPageSize"
@@ -129,7 +116,7 @@ const {
             <td>
               <div class="row-actions">
                 <button
-                  class="row-action-btn"
+                  class="btn btn--accent row-action-btn"
                   :disabled="isDetailItemRunning(row.item.id)"
                   @click="triggerRunDetailItem(detailProjectName, row.item.id, row.item.normalizedStatus)"
                 >
@@ -150,14 +137,14 @@ const {
     <div class="editor-panel card">
       <div class="detail-header">
         <h3>{{ editingField === 'source_text' ? '编辑源文本' : '编辑译文' }}</h3>
-        <button class="detail-editor-close" aria-label="关闭" @click="closeTextEditor">
+        <button class="btn btn--ghost detail-editor-close" aria-label="关闭" @click="closeTextEditor">
           <EpClose />
         </button>
       </div>
       <textarea v-model="editingText" class="editor-textarea"></textarea>
       <div class="model-actions editor-actions">
-        <button class="detail-action-btn detail-action-primary" @click="saveTextEditor">保存</button>
-        <button class="detail-action-btn" @click="closeTextEditor">取消</button>
+        <button class="btn btn--accent detail-action-btn" @click="saveTextEditor">保存</button>
+        <button class="btn btn--ghost detail-action-btn" @click="closeTextEditor">取消</button>
       </div>
     </div>
   </div>
@@ -188,73 +175,17 @@ const {
 }
 
 .detail-head-btn {
-  border: 1px solid var(--border);
-  background: var(--bg-muted);
-  color: var(--text);
-  border-radius: 10px;
-  height: 36px;
-  padding: 0 12px;
-  font-weight: 600;
-}
-
-.detail-head-btn:hover {
-  border-color: var(--accent);
-  background: var(--bg-soft);
-}
-
-.danger-outline {
-  border-color: var(--danger);
-  color: var(--danger);
-  background: var(--bg-elev);
-}
-
-.danger-outline:hover {
-  border-color: var(--danger);
-  background: var(--bg-soft);
+  min-width: 90px;
 }
 
 .detail-editor-close {
-  width: 34px;
-  height: 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg-muted);
-  color: var(--text-soft);
-  cursor: pointer;
-}
-
-.detail-editor-close:hover {
-  border-color: var(--accent);
-  background: var(--bg-soft);
-  color: var(--text);
+  width: 36px;
+  height: 36px;
+  padding: 0;
 }
 
 .detail-action-btn {
-  height: 38px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg-muted);
-  color: var(--text);
-  padding: 0 14px;
-  font-weight: 600;
-}
-
-.detail-action-btn:hover {
-  border-color: var(--accent);
-  background: var(--bg-soft);
-}
-
-.detail-action-primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-.detail-action-primary:hover {
-  filter: brightness(0.98);
+  min-width: 96px;
 }
 
 .detail-prompt {

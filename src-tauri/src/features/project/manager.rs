@@ -39,12 +39,11 @@ impl ProjectManager {
     pub async fn query_configs(
         &self,
         keyword: Option<String>,
-        run_statuses: Option<Vec<ProjectRunStatus>>,
         page: u32,
         page_size: u32,
     ) -> Result<ProjectPage> {
         let pool = get_app_db_pool().await?;
-        Project::query(pool, keyword, run_statuses, page, page_size).await
+        Project::query(pool, keyword, page, page_size).await
     }
 
     pub async fn get_config(&self, name: String) -> Result<Project> {

@@ -6,7 +6,6 @@ import type { ApiFormatKey } from '../../../shared/types/ui'
 import { useProviders } from './useProviders'
 import { usePageDataSync } from '../../../shared/composables/usePageDataSync'
 import { useVisiblePages } from '../../../shared/composables/useVisiblePages'
-import { useMultiSelectFilter } from '../../../shared/composables/useMultiSelectFilter'
 
 export function useProviderPage() {
   const {
@@ -18,7 +17,6 @@ export function useProviderPage() {
     showProviderEditor,
     providerPage,
     providerTotalPages,
-    providerFormatFilters,
     draftProviderName,
     draftApiFormat,
     draftApiUrl,
@@ -53,7 +51,7 @@ export function useProviderPage() {
     initialTasks: [{ task: loadProviders, errorPrefix: '加载 Provider 失败' }],
     watchTasks: [
       {
-        filterSources: [providerSearchKeyword, normalizedProviderPageSize, providerFormatFilters],
+        filterSources: [providerSearchKeyword, normalizedProviderPageSize],
         page: providerPage,
         task: loadProviders,
         errorPrefix: '加载 Provider 失败',
@@ -82,39 +80,6 @@ export function useProviderPage() {
       keyCount: cfg.api_keys.length,
       selected: selectedProviderSet.value.has(cfg.name),
     })),
-  )
-
-  const availableTypes = computed(() => {
-    const set = new Set<string>(['openai', 'google', 'anthropic'])
-    for (const item of providers.value) {
-      const type = item.formatType?.trim()
-      if (type) {
-        set.add(type)
-      }
-    }
-    return Array.from(set.values())
-  })
-
-  const {
-    selectedValues: selectedTypes,
-    allSelected: allTypesSelected,
-    partiallySelected: typesPartiallySelected,
-    toggleValue: toggleType,
-    toggleAll: handleToggleAllTypes,
-  } = useMultiSelectFilter(availableTypes)
-
-  watch(selectedTypes, () => {
-    if (currentPage.value !== 0) {
-      updateProviderPage(0)
-    }
-  })
-
-  watch(
-    selectedTypes,
-    (value) => {
-      providerFormatFilters.value = [...value]
-    },
-    { deep: true },
   )
 
   watch([totalPages, currentPage], () => {
@@ -152,12 +117,6 @@ export function useProviderPage() {
     selectedCount,
     bulkDeleteSelected,
     showEditor,
-    allTypesSelected,
-    typesPartiallySelected,
-    handleToggleAllTypes,
-    availableTypes,
-    selectedTypes,
-    toggleType,
     pageSize,
     updateProviderPageSize,
     currentPage,

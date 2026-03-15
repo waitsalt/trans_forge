@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import FilterDropdown from '../../../shared/ui/FilterDropdown.vue'
 import ListHeaderBar from '../../../shared/ui/ListHeaderBar.vue'
 import PaginationBar from '../../../shared/ui/PaginationBar.vue'
 import SearchableSelect from '../../../shared/ui/SearchableSelect.vue'
@@ -13,12 +12,6 @@ const {
   openCreatePromptPreset,
   selectAllVisiblePromptPresets,
   bulkDeleteSelected,
-  allLanguagesSelected,
-  languagesPartiallySelected,
-  availableLanguages,
-  selectedLanguages,
-  handleToggleAllLanguages,
-  toggleLanguage,
   normalizedPromptPresetPageSize,
   updatePromptPresetPageSize,
   promptPresetPage,
@@ -59,15 +52,6 @@ const {
 
     <template v-if="!showPromptPresetEditor">
       <div class="list-toolbar">
-        <FilterDropdown
-          label="语言"
-          :options="availableLanguages"
-          :selected-values="selectedLanguages"
-          :all-selected="allLanguagesSelected"
-          :partially-selected="languagesPartiallySelected"
-          :on-toggle-all="handleToggleAllLanguages"
-          :on-toggle-value="toggleLanguage"
-        />
         <PaginationBar
           :page-size="normalizedPromptPresetPageSize"
           :current-page="promptPresetPage"
@@ -102,8 +86,8 @@ const {
               </div>
             </div>
             <div class="model-actions">
-              <button @click="openEditPromptPreset(item.name)">编辑</button>
-              <button class="danger" @click="deletePreset(item.name)">删除</button>
+              <button class="btn" @click="openEditPromptPreset(item.name)">编辑</button>
+              <button class="btn btn--danger" @click="deletePreset(item.name)">删除</button>
             </div>
           </div>
       </div>
@@ -142,8 +126,8 @@ const {
       </div>
 
       <div class="model-actions editor-actions">
-        <button class="btn-primary" @click="savePreset">确认</button>
-        <button @click="cancelEditPromptPreset">取消</button>
+        <button class="btn btn--accent" @click="savePreset">确认</button>
+        <button class="btn btn--ghost" @click="cancelEditPromptPreset">取消</button>
       </div>
     </div>
   </div>
@@ -154,5 +138,9 @@ const {
   margin-top: 6px;
   font-size: 12px;
   color: color-mix(in srgb, var(--text) 70%, transparent);
+}
+
+.model-card .meta-value {
+  font-weight: 400;
 }
 </style>

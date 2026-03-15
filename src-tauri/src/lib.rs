@@ -7,6 +7,7 @@ use features::kv::commands::*;
 use features::preset::commands::*;
 use features::project::commands::*;
 use features::provider::commands::*;
+use features::theme::commands::*;
 use features::translation::commands::*;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -61,6 +62,12 @@ pub fn run() {
             list_app_kv,
             delete_app_kv,
             test_provider,
+            get_theme_state,
+            create_theme,
+            update_theme,
+            delete_theme,
+            restore_default_themes,
+            save_theme_preferences,
         ])
         .run(tauri::generate_context!())
         .unwrap_or_else(|error| {

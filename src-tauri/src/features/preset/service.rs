@@ -1,7 +1,6 @@
 use anyhow::{Result, anyhow};
 
 use crate::features::preset::{PromptPreset, PromptPresetPage};
-use crate::shared::common::Language;
 use crate::shared::database::get_app_db_pool;
 
 #[derive(Debug, Default)]
@@ -15,12 +14,11 @@ impl PresetService {
     pub async fn query(
         &self,
         keyword: Option<String>,
-        languages: Option<Vec<Language>>,
         page: u32,
         page_size: u32,
     ) -> Result<PromptPresetPage> {
         let pool = get_app_db_pool().await?;
-        PromptPreset::query(pool, keyword, languages, page, page_size).await
+        PromptPreset::query(pool, keyword, page, page_size).await
     }
 
     pub async fn list(&self) -> Result<Vec<PromptPreset>> {

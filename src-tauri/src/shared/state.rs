@@ -4,12 +4,14 @@ use crate::features::kv::service::KvService;
 use crate::features::project::manager::ProjectManager;
 use crate::features::preset::service::PresetService;
 use crate::features::provider::service::ProviderService;
+use crate::features::theme::service::ThemeService;
 
 pub struct AppState {
     pub preset: PresetService,
     pub kv: KvService,
     pub provider: ProviderService,
     pub project: ProjectManager,
+    pub theme: ThemeService,
     recovered_running_projects: AtomicBool,
 }
 
@@ -22,6 +24,7 @@ impl AppState {
             kv: KvService::new(),
             provider,
             project,
+            theme: ThemeService::new(),
             recovered_running_projects: AtomicBool::new(false),
         }
     }

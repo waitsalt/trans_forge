@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { EpArrowLeft, EpArrowRight, EpDArrowLeft, EpDArrowRight } from 'vue-icons-plus/ep'
 
 const props = defineProps<{
   pageSize: number
@@ -24,6 +25,9 @@ const currentPageModel = computed({
   get: () => props.currentPage + 1,
   set: (value: number) => props.onUpdateCurrentPage(Number(value) - 1),
 })
+
+const disablePrev = computed(() => props.totalPages <= 0 || props.currentPage <= 0)
+const disableNext = computed(() => props.totalPages <= 0 || props.currentPage >= props.totalPages - 1)
 </script>
 
 <template>
@@ -41,8 +45,12 @@ const currentPageModel = computed({
       v-model.number="currentPageModel"
     />
     <span> / {{ props.totalPages }}</span>
-    <button @click="props.onFirst">&lt;&lt;</button>
-    <button @click="props.onPrev">&lt;</button>
+    <button class="btn btn--ghost btn--icon" aria-label="最前" :disabled="disablePrev" @click="props.onFirst">
+      <EpDArrowLeft class="inline-icon" />
+    </button>
+    <button class="btn btn--ghost btn--icon" aria-label="上一个" :disabled="disablePrev" @click="props.onPrev">
+      <EpArrowLeft class="inline-icon" />
+    </button>
     <button
       v-for="page in props.visiblePages"
       :key="page"
@@ -51,7 +59,11 @@ const currentPageModel = computed({
     >
       {{ page + 1 }}
     </button>
-    <button @click="props.onNext">&gt;</button>
-    <button @click="props.onLast">&gt;&gt;</button>
+    <button class="btn btn--ghost btn--icon" aria-label="下一个" :disabled="disableNext" @click="props.onNext">
+      <EpArrowRight class="inline-icon" />
+    </button>
+    <button class="btn btn--ghost btn--icon" aria-label="最后" :disabled="disableNext" @click="props.onLast">
+      <EpDArrowRight class="inline-icon" />
+    </button>
   </div>
 </template>

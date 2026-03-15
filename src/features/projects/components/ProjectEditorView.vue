@@ -116,8 +116,8 @@ watch(draftPromptPresetName, (value) => {
           v-model="draftInputPath"
           placeholder="选择要翻译的文件或目录"
         />
-        <button @click="selectInputFolder()">选择文件</button>
-        <button @click="selectInputDirectory()">选择文件夹</button>
+        <button class="btn btn--ghost" @click="selectInputFolder()">选择文件</button>
+        <button class="btn btn--ghost" @click="selectInputDirectory()">选择文件夹</button>
       </div>
     </div>
 
@@ -129,13 +129,13 @@ watch(draftPromptPresetName, (value) => {
           v-model="draftOutputPath"
           placeholder="翻译结果输出目录"
         />
-        <button @click="selectOutputFolder()">浏览</button>
+        <button class="btn btn--ghost" @click="selectOutputFolder()">浏览</button>
       </div>
     </div>
 
     <div class="model-actions editor-actions">
-      <button class="btn-primary" @click="saveProjectProfile()">确认</button>
-      <button @click="cancelEditProject()">取消</button>
+      <button class="btn btn--accent" @click="saveProjectProfile()">确认</button>
+      <button class="btn btn--ghost" @click="cancelEditProject()">取消</button>
     </div>
   </div>
 </template>

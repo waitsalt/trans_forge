@@ -29,9 +29,9 @@ const searchKeywordModel = computed({
         v-model="searchKeywordModel"
         :placeholder="props.searchPlaceholder"
       />
-      <button class="btn-primary" @click="props.onAdd">{{ props.addLabel }}</button>
-      <button @click="props.onSelectAll">全选</button>
-      <button v-if="props.selectedCount > 0" class="danger" @click="props.onBulkDelete">批量删除</button>
+      <button class="btn btn--accent" @click="props.onAdd">{{ props.addLabel }}</button>
+      <button class="btn btn--ghost" @click="props.onSelectAll">全选</button>
+      <button v-if="props.selectedCount > 0" class="btn btn--danger" @click="props.onBulkDelete">批量删除</button>
     </div>
   </div>
 </template>

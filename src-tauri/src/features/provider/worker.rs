@@ -35,14 +35,13 @@ impl Actor for ProviderWorker {
         match msg {
             ProviderMessage::Query {
                 keyword,
-                format_types,
                 page,
                 page_size,
                 resp,
             } => {
                 let result = async {
                     let pool = get_app_db_pool().await?;
-                    Provider::query(pool, keyword, format_types, page, page_size).await
+                    Provider::query(pool, keyword, page, page_size).await
                 }
                 .await;
                 let _ = resp.send(result);
